@@ -79,6 +79,25 @@ services:
       external:
         ipv4_address: 192.168.254.101
 
+  db:
+    image: mysql:5.7
+    restart: always
+    container_name: db
+    environment:
+      MYSQL_DATABASE: 'kamailio_db'
+      MYSQL_USER: 'kamailio'
+      MYSQL_PASSWORD: 'ro_password'
+      MYSQL_ROOT_PASSWORD: 'rw_password'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - './db_data:/var/lib/mysql'
+    networks:
+      internal:
+        ipv4_address: 172.16.254.10
+
 
 networks:
     external:
