@@ -1,1 +1,4 @@
 db_data/
+# ignore certificates
+*.pem
+*.csr

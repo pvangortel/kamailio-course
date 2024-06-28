@@ -1,0 +1,2 @@
+ query=$(cat /etc/kamailio/sql/rtpengine.sql) ; kamctl db exec "$query" ; kamctl db exec "select * from rtpengine"
+ query=$(cat /etc/kamailio/sql/migration-acc.sql) ; kamctl db exec "$query" ; kamctl db exec "desc acc_cdrs"

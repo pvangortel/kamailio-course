@@ -14,6 +14,8 @@ services:
       - NET_ADMIN
 
   kamailio-edge:
+    depends_on:
+      - db
     image: kamailio/kamailio-ci:5.4-alpine.debug
     container_name: kamailio-edge
     ports:
@@ -39,7 +41,7 @@ services:
 
   rtpengine-edge:
     build:
-      context: ./rtpengine-edge/docker
+      context: ./rtpengine-edge
       dockerfile: Dockerfile
     container_name: rtpengine-edge
     ports:
@@ -57,6 +59,8 @@ services:
     container_name: b2bua_internal_01 
     stdin_open: true
     image: andrius/pjsua:latest
+    volumes:
+      - './b2bua/b2bua_external_01:/config'
     command: pjsua --null-audio --no-tcp --auto-answer=404 --outbound sip:172.16.254.2;lr
     ports:
       - "5091:5060"
@@ -80,8 +84,11 @@ services:
     tty: true
     container_name: b2bua_external_01
     stdin_open: true
+    volumes:
+      - './b2bua/b2bua_external_01:/config'
     image: andrius/pjsua:latest
-    command: pjsua --null-audio --no-tcp --outbound sip:192.168.254.2;lr
+    # command: pjsua --null-audio --no-tcp --outbound sip:192.168.254.2;lr
+    command: pjsua --config-file /config/pjsua.cfg
     ports:
       - "5093:5060"
     networks:
